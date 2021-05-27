@@ -4,7 +4,7 @@ import router from "./router";
 import store from "./store";
 import Vue2Editor from "vue2-editor";
 
-Vue.use(Vue2Editor);
+Vue.use(Vue2Editor);  // initialising editor
 
 Vue.config.productionTip = false;
 

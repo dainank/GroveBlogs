@@ -21,27 +21,27 @@ export default {
 </script>
 
 <style lang="scss">
-@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");  // font
 
 * {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  box-sizing: border-box; // reset on app
   font-family: "Quicksand", sans-serif;
 }
 
-.app {
+.app {  // flex styling setup
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-.container {
+.container {  // resolution container
   max-width: 1440px;
   margin: 0 auto;
 }
 
-.link {
+.link { // helper link styling
   cursor: pointer;
   text-decoration: none;
   text-transform: uppercase;
