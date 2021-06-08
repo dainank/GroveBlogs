@@ -1,4 +1,4 @@
-# fireblogs
+# grovenote
 
 ## Project setup
 ```
