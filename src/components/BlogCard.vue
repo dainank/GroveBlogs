@@ -1,6 +1,6 @@
 <template>
   <div class="blog-card">
-    <div class="icons">
+    <div v-show="editPost" class="icons">
       <div class="icon">
         <Edit class="edit" />
       </div>
@@ -34,6 +34,11 @@ export default {
     Arrow,
     Edit,
     Delete,
+  },
+  computed: {
+    editPost() {
+      return this.$store.state.editPost;
+    },
   },
 };
 </script>
@@ -72,77 +77,88 @@ export default {
       background-color: #fff;
       transition: 0.5s ease all;
 
-      &:hover { // background hover
+      &:hover {
+        // background hover
         background-color: #303030;
 
         .edit,
-        .delete {   // inner hover look
+        .delete {
+          // inner hover look
           path {
             fill: paleturquoise;
           }
         }
       }
 
-      &:nth-child(1) {  // spacing between edit & delete
-          margin-right: 8px;    // not touching
+      &:nth-child(1) {
+        // spacing between edit & delete
+        margin-right: 8px; // not touching
       }
 
       .edit,
-      .delete{  // icon within
-          pointer-events: none;
-          height: 15px;
-          width: auto;
+      .delete {
+        // icon within
+        pointer-events: none;
+        height: 15px;
+        width: auto;
       }
     }
   }
 
-  img { // control blog card image
-      display: block;
-      border-radius: 8px 8px 0 0;
-      z-index: 1;
-      width: 100%;
-      min-height: 200px;
-      object-fit: cover;
+  img {
+    // control blog card image
+    display: block;
+    border-radius: 8px 8px 0 0;
+    z-index: 1;
+    width: 100%;
+    min-height: 200px;
+    object-fit: cover;
   }
 
-  .info {   // info box (containing, title, date and link) TODO: consider adding description area
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      z-index: 3;
-      padding: 32px 16px;
-      color: #000;
+  .info {
+    // info box (containing, title, date and link) TODO: consider adding description area
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    z-index: 3;
+    padding: 32px 16px;
+    color: #000;
 
-      h4 {  // blog title
-          padding-bottom: 8px;
-          font-size: 20px;
-          font-weight: 300;
+    h4 {
+      // blog title
+      padding-bottom: 8px;
+      font-size: 20px;
+      font-weight: 300;
+    }
+
+    h6 {
+      // date
+      font-weight: 400;
+      font-size: 12px;
+      padding-bottom: 16px;
+    }
+
+    .link {
+      // controlling View Post -> text (link)
+      display: inline-flex;
+      align-items: center;
+      margin-top: auto;
+      font-weight: 500;
+      padding-top: 20px;
+      font-size: 12px;
+      padding-bottom: 4px;
+      transition: 0.5s ease-in all;
+
+      &:hover {
+        // unknown??
+        color: rgba(48, 48, 48, 0.8);
       }
 
-      h6 {  // date
-          font-weight: 400;
-          font-size: 12px;
-          padding-bottom: 16px;
+      .arrow {
+        // arrow size
+        width: 10px;
       }
-
-      .link {   // controlling View Post -> text (link)
-          display: inline-flex;
-          align-items: center;
-          margin-top: auto;
-          font-weight: 500;
-          padding-top: 20px;
-          font-size: 12px;
-          padding-bottom: 4px;
-          transition: .5s ease-in all;
-
-          &:hover { // unknown??
-              color: rgba(48, 48, 48, 0.8)
-          }
-
-          .arrow {  // arrow size
-              width: 10px;
-          }
-      }
+    }
   }
 }
 </style>
