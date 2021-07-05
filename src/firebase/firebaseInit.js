@@ -17,3 +17,5 @@ var firebaseConfig = {
 
   export {timestamp};
   export default firebaseApp.firestore();
+
+// code is safe to expose
