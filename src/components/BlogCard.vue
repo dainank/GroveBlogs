@@ -1,13 +1,15 @@
 <template>
   <div class="blog-card">
-    <div v-show="editPost" class="icons">
-      <div class="icon">
-        <Edit class="edit" />
+    <FadeTransition object='Number' number='250'>
+      <div v-show='editPost' class="icons">
+        <div class="icon">
+          <Edit class="edit" />
+        </div>
+        <div class="icon">
+          <Delete class="delete" />
+        </div>
       </div>
-      <div class="icon">
-        <Delete class="delete" />
-      </div>
-    </div>
+    </FadeTransition>
     <img
       :src="require(`../assets/blogCards/${post.blogCoverPhoto}.jpg`)"
       alt=""
@@ -26,6 +28,7 @@
 import Arrow from "../assets/Icons/arrow-right-light.svg";
 import Edit from "../assets/Icons/edit-regular.svg";
 import Delete from "../assets/Icons/trash-regular.svg";
+import {FadeTransition} from 'vue2-transitions';
 export default {
   name: "blogCard",
   props: ["post"],
@@ -34,6 +37,7 @@ export default {
     Arrow,
     Edit,
     Delete,
+    FadeTransition,
   },
   computed: {
     editPost() {
@@ -44,6 +48,7 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+
 .blog-card {
   position: relative;
   cursor: pointer;
