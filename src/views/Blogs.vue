@@ -46,11 +46,12 @@ export default {
     display: flex;
     align-items: center;
     position: absolute;
-    top: -70px;
+    top: -55px;
     right: 0;
 
     span {
       margin-right: 16px;
+      font-weight: 500;
     }
 
     input[type="checkbox"] {

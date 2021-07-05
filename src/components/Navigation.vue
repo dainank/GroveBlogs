@@ -7,21 +7,23 @@
         >
       </div>
       <div class="nav-links">
-         <ul v-show="!mobile">   <!-- show if mobile false -->
+        <ul v-show="!mobile">
+          <!-- show if mobile false -->
           <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
           <!-- TODO: Update Routes -->
-          <router-link class="link" :to="{name: 'Blogs'}">Blogs</router-link>
+          <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
           <router-link class="link" to="#">Create Post</router-link>
           <router-link class="link" to="#">Login/Register</router-link>
         </ul>
       </div>
     </nav>
-    <menuIcon @click="toggleMobileNav" class="menu-icon" v-show="mobile" />  
+    <menuIcon @click="toggleMobileNav" class="menu-icon" v-show="mobile" />
     <!-- Mobile -->
     <transition name="mobile-nav">
-      <ul class="mobile-nav" v-show="mobileNav">    <!-- show if mobileNav true -->
+      <ul class="mobile-nav" v-show="mobileNav">
+        <!-- show if mobileNav true -->
         <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
-        <router-link class="link" :to="{name: 'Blogs'}">Blogs</router-link>
+        <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
         <router-link class="link" to="#">Create Post</router-link>
         <router-link class="link" to="#">Login/Register</router-link>
       </ul>
@@ -45,8 +47,8 @@ export default {
     };
   },
   created() {
-      window.addEventListener('resize', this.checkScreenSize);
-      this.checkScreenSize();
+    window.addEventListener("resize", this.checkScreenSize);
+    this.checkScreenSize();
   },
   methods: {
     checkScreenSize() {
@@ -73,7 +75,8 @@ export default {
 header {
   background-color: #fff;
   padding: 0 25px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06);
   z-index: 99;
   .link {
     font-weight: 500;
@@ -131,7 +134,8 @@ header {
           right: 0;
           width: 250px;
           background-color: #303030;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+            0 2px 4px -1px rgba(0, 0, 0, 0.06);
           .info {
             display: flex;
             align-items: center;
@@ -197,7 +201,7 @@ header {
     width: auto;
   }
   .mobile-nav {
-    padding: 20px;
+    padding: 0;
     width: 70%;
     max-width: 250px;
     display: flex;
@@ -210,6 +214,11 @@ header {
     .link {
       padding: 15px 0;
       color: #fff;
+      text-indent: 17px;
+      &:hover {
+        color: #1eb8b8;
+        background: #1eb8b82f;
+      }
     }
   }
   .mobile-nav-enter-active,
