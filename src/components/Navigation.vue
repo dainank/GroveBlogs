@@ -13,8 +13,44 @@
           <!-- TODO: Update Routes -->
           <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
           <router-link class="link" to="#">Create Post</router-link>
-          <router-link class="link" :to="{ name: 'Login' }">Login/Register</router-link>
+          <router-link v-if="!user" class="link" :to="{ name: 'Login' }"
+            >Login/Register</router-link
+          >
         </ul>
+        <div v-if="user" @click="toggleProfileMenu" class="profile" ref="profile">
+          <span>{{ this.$store.state.profileInitials }}</span>
+          <div v-show="profileMenu" class="profile-menu">
+            <div class="info">
+              <p class="initials">{{ this.$store.state.profileInitials }}</p>
+              <div class="right">
+                <p>
+                  {{ this.$store.state.profileFirstName }}
+                  {{ this.$store.state.profilelastName }}
+                </p>
+                <p>{{ this.$store.state.profileUserName }}</p>
+                <p>{{ this.$store.state.profileEmail }}</p>
+              </div>
+            </div>
+            <div class="options">
+              <div class="option">
+                <router-link class="option" to="#">
+                  <userIcon class="icon" />
+                  <p>Profile</p>
+                </router-link>
+              </div>
+              <div class="option">
+                <router-link class="option" to="#">
+                  <adminIcon class="icon" />
+                  <p>Admin</p>
+                </router-link>
+              </div>
+              <div @click="signOut" class="option">
+                <logoutIcon class="icon" />
+                <p>Logout</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </nav>
     <menuIcon @click="toggleMobileNav" class="menu-icon" v-show="mobile" />
@@ -25,7 +61,9 @@
         <router-link class="link" :to="{ name: 'Home' }">Home</router-link>
         <router-link class="link" :to="{ name: 'Blogs' }">Blogs</router-link>
         <router-link class="link" to="#">Create Post</router-link>
-        <router-link class="link" :to="{ name: 'Login' }">Login/Register</router-link>
+        <router-link class="link" :to="{ name: 'Login' }"
+          >Login/Register</router-link
+        >
       </ul>
     </transition>
   </header>
@@ -33,14 +71,23 @@
 
 <script>
 import menuIcon from "../assets/Icons/bars-regular.svg";
+import userIcon from "../assets/Icons/user-alt-light.svg";
+import adminIcon from "../assets/Icons/user-crown-light.svg";
+import logoutIcon from "../assets/Icons/sign-out-alt-regular.svg";
+import firebase from "firebase/app";
+import "firebase/auth";
 
 export default {
   name: "navigation",
   components: {
     menuIcon,
+    userIcon,
+    adminIcon,
+    logoutIcon,
   },
   data() {
     return {
+      profileMenu: null, // hide/show profile menu
       mobile: null, // true/false mobile view
       mobileNav: null, // true/false mobile sidebar open
       windowWidth: null,
@@ -51,6 +98,15 @@ export default {
     this.checkScreenSize();
   },
   methods: {
+    signOut() {
+      firebase.auth().signOut();
+      window.location.reload(); // refresh page
+    },
+    toggleProfileMenu(event) {
+      if (event.target === this.$refs.profile) {
+        this.profileMenu = !this.profileMenu;
+      }
+    },
     checkScreenSize() {
       this.windowWidth = window.innerWidth;
       if (this.windowWidth <= 750) {
@@ -66,6 +122,11 @@ export default {
     toggleMobileNav() {
       // switch boolean
       this.mobileNav = !this.mobileNav;
+    },
+  },
+  computed: {
+    user() {
+      return this.$store.state.user;
     },
   },
 };
@@ -126,7 +187,7 @@ header {
         color: #fff;
         background-color: #303030;
         span {
-          pointer-events: none;
+          pointer-events: none; // bypass (act like span not clickable)
         }
         .profile-menu {
           position: absolute;
