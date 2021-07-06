@@ -56,7 +56,7 @@ export default {
     return {
       firstName: "",
       lastName: "",
-      userName: "",
+      username: "",
       email: "",
       password: "",
       error: "",
@@ -70,7 +70,7 @@ export default {
         this.password !== "" &&
         this.firstName !== "" &&
         this.lastName !== "" &&
-        this.userName !== ""
+        this.username !== ""
       ) {
         this.error = false;
         this.errorMsg = "";
@@ -84,7 +84,7 @@ export default {
         await dataBase.set({
           firstName: this.firstName,
           lastName: this.lastName,
-          userName: this.userName,
+          username: this.username,
           email: this.email,
         });
         this.$router.push({ name: "Home" }); // send to home
