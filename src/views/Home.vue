@@ -100,7 +100,7 @@ export default {
       text-transform: uppercase;
       @media(min-width: 800px) {
         text-align: initial;
-        font-size: 40px;
+        font-size: 30px;
       }
     }
   }

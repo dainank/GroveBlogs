@@ -1,9 +1,9 @@
 <template>
   <div class="app-wrapper">
     <div class="app">
-      <Navigation />
+      <Navigation v-if='!navigationDisabled' />
       <router-view />
-      <Footer />
+      <Footer v-if='!navigationDisabled'/>
     </div>
   </div>
 </template>
@@ -15,12 +15,29 @@ export default {
   name: "app",
   components: { Navigation, Footer },
   data() {
-    return {};
+    return {
+      navigationDisabled: null,
+    };
   },
-  created() {},
+  created() {
+    this.checkRouteForNavigation(); // initialize method
+  },
   mounted() {},
-  methods: {},
-  watch: {},
+  methods: {
+    checkRouteForNavigation() {
+      // control navigation visibility
+      if (this.$route.name === "Login" || this.$route.name === "Register" || this.$route.name === "ForgotPassword") {
+        this.navigationDisabled = true;
+        return;
+      }
+      this.navigationDisabled = false;
+    },
+  },
+  watch: {
+    $route() {
+      this.checkRouteForNavigation();
+    }
+  },  // check on each switch
 };
 </script>
 
@@ -72,7 +89,7 @@ export default {
   }
 }
 
-.button,
+button,
 .router-button {
   transition: 500ms ease all;
   cursor: pointer;
@@ -101,7 +118,7 @@ export default {
   font-size: 15px;
   font-weight: 500;
   background-color: transparent;
-  @media(min-width: 700){
+  @media (min-width: 700) {
     margin-top: 0;
     margin-left: auto;
   }
