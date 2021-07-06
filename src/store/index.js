@@ -19,7 +19,7 @@ export default new Vuex.Store({
     profileEmail: null,
     profileFirstName: null,
     profileLastName: null,
-    profileUserName: null,
+    profileUsername: null,
     profileId: null,
     profileInitials: null,
   },
@@ -35,10 +35,19 @@ export default new Vuex.Store({
         state.profileEmail = doc.data().email;  // see firebase
       state.profileFirstName = doc.data().firstName;
       state.profileLastName = doc.data().lastName;
-      state.profileUserName = doc.data().username;
+      state.profileUsername = doc.data().username;
     },
     setProfileInitials(state) { // getting first initial from first name added to first intiial from last name
       state.profileInitials = state.profileFirstName.match(/(\b\S)?/g).join('') + state.profileLastName.match(/(\b\S)?/g).join('');
+    },
+    changeFirstName(state, payload) {
+      state.profileFirstName = payload;
+    },
+    changeLastName(state, payload) {
+      state.profileLastName = payload;
+    },
+    changeUsername(state, payload) {
+      state.profileUsername = payload;
     },
   },
   actions: {
@@ -46,6 +55,15 @@ export default new Vuex.Store({
       const database = await db.collection('users').doc(firebase.auth().currentUser.uid); // getCurrentUser
       const dbResults = await database.get(); // user
       commit("setProfileInfo", dbResults);  // setState
+      commit("setProfileInitials");
+    },
+    async updateUserSettings({commit, state}) {
+      const database = await db.collection('users').doc(state.profileId);
+      await database.update({
+        firstName: state.profileFirstName,
+        lastName: state.profileLastName,
+        userName: state.profileUsername,
+      });
       commit("setProfileInitials");
     },
   },
