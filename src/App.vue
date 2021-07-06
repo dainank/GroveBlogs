@@ -1,9 +1,9 @@
 <template>
   <div class="app-wrapper">
     <div class="app">
-      <Navigation v-if='!navigationDisabled' />
+      <Navigation v-if="!navigationDisabled" />
       <router-view />
-      <Footer v-if='!navigationDisabled'/>
+      <Footer v-if="!navigationDisabled" />
     </div>
   </div>
 </template>
@@ -11,6 +11,8 @@
 <script>
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
+import firebase from "firebase/app";
+import "firebase/auth";
 export default {
   name: "app",
   components: { Navigation, Footer },
@@ -20,13 +22,24 @@ export default {
     };
   },
   created() {
+    firebase.auth().onAuthStateChanged((user) => {
+      this.$store.commit("updateUser", user);
+      if(user){
+        this.$store.dispatch("getCurrentUser");
+        console.log(this.$store.state.profileEmail)
+      }
+    });
     this.checkRouteForNavigation(); // initialize method
   },
   mounted() {},
   methods: {
     checkRouteForNavigation() {
       // control navigation visibility
-      if (this.$route.name === "Login" || this.$route.name === "Register" || this.$route.name === "ForgotPassword") {
+      if (
+        this.$route.name === "Login" ||
+        this.$route.name === "Register" ||
+        this.$route.name === "ForgotPassword"
+      ) {
         this.navigationDisabled = true;
         return;
       }
@@ -36,8 +49,8 @@ export default {
   watch: {
     $route() {
       this.checkRouteForNavigation();
-    }
-  },  // check on each switch
+    },
+  }, // check on each switch
 };
 </script>
 

@@ -1,9 +1,19 @@
 <template>
   <div class="reset-password">
-      <Modal v-if='modalActive' v-on:close-modal='closeModal'/>
-      <Loading v-if='loading'/>
+    <Modal
+      v-if="modalActive"
+      :modalMessage="modalMessage"
+      v-on:close-modal="closeModal"
+    />
+    <Loading v-if="loading" />
     <div class="form-wrap">
       <form class="reset">
+        <p class="login-register">
+          Back to
+          <router-link class="router-link" :to="{ name: 'Login' }"
+            >Login</router-link
+          >
+        </p>
         <h2>Reset Password</h2>
         <p>Enter your email to reset your password:</p>
         <div class="inputs">
@@ -12,7 +22,7 @@
             <envelope class="icon" />
           </div>
         </div>
-        <button>Reset Password</button>
+        <button @click.prevent='resetPassword'>Reset Password</button>
         <div class="angle"></div>
       </form>
       <div class="background"></div>
@@ -22,17 +32,19 @@
 
 <script>
 import envelope from "../assets/Icons/envelope-regular.svg";
-import Modal from '../components/Modal.vue';
-import Loading from '../components/Loading.vue';
+import Modal from "../components/Modal.vue";
+import Loading from "../components/Loading.vue";
+import firebase from "firebase/app";
+import "firebase/auth";
 export default {
   name: "ForgotPassword",
   data() {
-      return {
-          email: null,
-          modalActive: false,    // toggle on-ff
-          modalMessage: '',
-          loading: null,
-      }
+    return {
+      email: "",
+      modalActive: false, // toggle on-ff
+      modalMessage: "",
+      loading: null,
+    };
   },
   components: {
     envelope,
@@ -40,11 +52,28 @@ export default {
     Loading,
   },
   methods: {
-      closeModal() {
-          this.modalActive = !this.modalActive;
-          this.email = '';  // clear email
-      }
-  }
+    closeModal() {
+      this.modalActive = !this.modalActive;
+      this.email = ""; // clear email
+    },
+    resetPassword() {
+      this.loading = true;
+      firebase
+        .auth()
+        .sendPasswordResetEmail(this.email)
+        .then(() => {
+          this.modalMessage =
+            "If an account exists with this email, please check your mailbox for further instructions to reset your password.";
+          this.loading = false;
+          this.modalActive = true;
+        })
+        .catch((err) => {
+          this.modalMessage = err.message;
+          this.loading = false;
+          this.modalActive = true;
+        });
+    },
+  },
 };
 </script>
 
