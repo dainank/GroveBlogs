@@ -1,6 +1,6 @@
 <template>
   <div class="form-wrap">
-    <form action="" class="login">
+    <form class="login">
       <p class="login-register">
         Don't have an account?
         <router-link class="router-link" :to="{ name: 'Register' }"
@@ -21,7 +21,7 @@
       <router-link class="forgot-password" :to="{ name: 'ForgotPassword' }"
         >Forgot Your Password?</router-link
       >
-      <button>Sign In</button>
+      <button>Login</button>
       <div class="angle"></div>
     </form>
     <div class="background"></div>
@@ -68,7 +68,6 @@ export default {
   }
 
   form {
-    padding: 0 10px;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -77,7 +76,7 @@ export default {
     flex: 1;
 
     @media (min-width: 900px) {
-      padding: 0, 50px;
+      padding: 0 50px;
     }
 
     h2 {
@@ -126,7 +125,7 @@ export default {
       color: black;
       cursor: pointer;
       font-size: 14px;
-      margin: 16px 0 32px;
+      margin: 16px 0 8px;
       border-bottom: 1px solid transparent;
       transition: 0.5s ease all;
 
