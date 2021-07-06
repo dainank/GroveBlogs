@@ -1,9 +1,9 @@
 <template>
   <div class="app-wrapper">
     <div class="app">
-      <Navigation />
+      <Navigation v-if="!navigationDisabled" />
       <router-view />
-      <Footer />
+      <Footer v-if="!navigationDisabled" />
     </div>
   </div>
 </template>
@@ -11,16 +11,46 @@
 <script>
 import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
+import firebase from "firebase/app";
+import "firebase/auth";
 export default {
   name: "app",
   components: { Navigation, Footer },
   data() {
-    return {};
+    return {
+      navigationDisabled: null,
+    };
   },
-  created() {},
+  created() {
+    firebase.auth().onAuthStateChanged((user) => {
+      this.$store.commit("updateUser", user);
+      if(user){
+        this.$store.dispatch("getCurrentUser");
+        console.log(this.$store.state.profileEmail)
+      }
+    });
+    this.checkRouteForNavigation(); // initialize method
+  },
   mounted() {},
-  methods: {},
-  watch: {},
+  methods: {
+    checkRouteForNavigation() {
+      // control navigation visibility
+      if (
+        this.$route.name === "Login" ||
+        this.$route.name === "Register" ||
+        this.$route.name === "ForgotPassword"
+      ) {
+        this.navigationDisabled = true;
+        return;
+      }
+      this.navigationDisabled = false;
+    },
+  },
+  watch: {
+    $route() {
+      this.checkRouteForNavigation();
+    },
+  }, // check on each switch
 };
 </script>
 
@@ -72,7 +102,7 @@ export default {
   }
 }
 
-.button,
+button,
 .router-button {
   transition: 500ms ease all;
   cursor: pointer;
@@ -101,7 +131,7 @@ export default {
   font-size: 15px;
   font-weight: 500;
   background-color: transparent;
-  @media(min-width: 700){
+  @media (min-width: 700) {
     margin-top: 0;
     margin-left: auto;
   }
@@ -121,6 +151,12 @@ export default {
   pointer-events: none !important;
   cursor: none !important;
   background-color: rgba(128, 128, 128, 0.5) !important;
+}
+
+.error {
+  text-align: center;
+  font-size: 12px;
+  color: red;
 }
 
 .blog-card-wrap {
