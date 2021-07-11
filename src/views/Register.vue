@@ -18,7 +18,7 @@
           <username class="icon" />
         </div>
         <div class="input">
-          <input type="text" placeholder="Username" v-model="userName" />
+          <input type="text" placeholder="Username" v-model="username" />
           <username class="icon" />
         </div>
         <div class="input">
@@ -65,6 +65,7 @@ export default {
   },
   methods: {
     async register() {
+      console.log(username);
       if (
         this.email !== "" &&
         this.password !== "" &&
